@@ -16,3 +16,6 @@ const data = [
         ]
     }
 ]
+
+export const version = 100000016;
+export default data;

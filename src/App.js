@@ -10,7 +10,9 @@ import Footer from "./components/Footer/Footer";
 import './App.css';
 import Topic from "./components/Topic/Topic";
 import logo from "./eren.jpg"
-import subjectData from "./CoreSubjects"
+
+import CoreSubjects from "./components/TopicCard/CoreSubject";
+import { exportCoreDBData, getCoreData, resetCoreDBData } from "./services/dbCoreService";
 
 
 
@@ -21,6 +23,7 @@ function App() {
 	// setting state for data received from the DB
 
 	const [questionData, setquestionData] = useState([]);
+	const [coreSubjectData, setCoreSubjectData] = useState([]);
 
 	// if dark theme is enabled or not
 	const [dark, setDark] = useState(false);
@@ -32,6 +35,10 @@ function App() {
 
 		getData((QuestionData) => {
 			setquestionData(QuestionData);
+		});
+
+		getCoreData((CoreSubjectData) => {
+			setCoreSubjectData(CoreSubjectData);
 		});
 
 		//implementing dark theme mode option
@@ -61,6 +68,17 @@ function App() {
 		});
 		setquestionData(reGenerateUpdatedData);
 	}
+	function updateCoreData(key, topicData, topicPosition) {
+		let reGenerateUpdatedData = coreSubjectData.map((topic, index) => {
+			if (index === topicPosition) {
+				updateCoreData(key, topicData);
+				return { topicName: topic.topicName, position: topic.position, ...topicData };
+			} else {
+				return topic;
+			}
+		});
+		setCoreSubjectData(reGenerateUpdatedData);
+	}
 
 	// reset and clear DB
 	function resetData() {
@@ -69,9 +87,23 @@ function App() {
 			window.location.replace(window.location.origin);
 		});
 	}
+	function resetCoreData() {
+		resetCoreDBData((response) => {
+			setCoreSubjectData([]);
+			window.location.replace(window.location.origin);
+		});
+	}
 
 	// export 450DSA-Progress data
 
+	function exportCoreData(callback) {
+		exportCoreDBData((data) => {
+			const fileData = JSON.stringify(data);
+			const blob = new Blob([fileData], { type: "text/plain" });
+			saveAs(blob, "progress.json");
+			callback();
+		});
+	}
 	function exportData(callback) {
 		exportDBData((data) => {
 			const fileData = JSON.stringify(data);
@@ -86,6 +118,13 @@ function App() {
 	function importData(data, callback) {
 		importDBData(data, (QuestionData) => {
 			setquestionData(QuestionData);
+			callback();
+		});
+	}
+
+	function importCoreData(data, callback) {
+		importCoreData(data, (QuestionData) => {
+			setCoreSubjectData(QuestionData);
 			callback();
 		});
 	}
@@ -112,6 +151,7 @@ function App() {
 
 					<Routes>
 						<Route exact path="/" element={<TopicCard questionData={questionData}></TopicCard>} />
+						<Route exact path="/coresubjects" element={<CoreSubjects questionData={coreSubjectData}></CoreSubjects>} />
 						<Route
 							path="/about"
 							element={

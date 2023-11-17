@@ -7,11 +7,10 @@ import Col from "react-bootstrap/Col";
 import Fade from "react-reveal/Fade";
 import { Link } from "react-router-dom";
 import { ThemeContext } from "../../App";
-
 import "./topicCard.css";
 
 
-export default function TopicCard({ questionData }) {
+export default function CoreSubjects({ questionData }) {
   const dark = useContext(ThemeContext);
 
   // This component takes all the topicsData(here questionData ) and renders a TopicCard Component
@@ -185,7 +184,7 @@ export default function TopicCard({ questionData }) {
       </div>
 
       <div className="apptitude">
-        <a href="/">Apptitude preparation</a>
+        <a href="/">Apptitude </a>
       </div>
     </>
   );
