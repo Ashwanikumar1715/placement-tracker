@@ -10,7 +10,7 @@ import { ThemeContext } from "../../App";
 import "./topicCard.css";
 
 
-export default function CoreSubjects({ questionData }) {
+export default function CoreSubject({ questionData }) {
   const dark = useContext(ThemeContext);
 
   // This component takes all the topicsData(here questionData ) and renders a TopicCard Component
@@ -114,13 +114,13 @@ export default function CoreSubjects({ questionData }) {
                           className="float-right"
                           style={{ fontWeight: "500", cursor: "pointer" }}
                         >
-                          Start Solving
+                          Start Preparing
                         </Badge>
                       </h4>
                     </Col>
                   </Row>
                   <Card.Text className="totalQuestion">
-                    Total Questions {questions.length}
+                    Total Topics {questions.length}
                   </Card.Text>
                   <p className="percentDone mb-1">
                     <b>
@@ -142,7 +142,7 @@ export default function CoreSubjects({ questionData }) {
   return (
     <>
       <h3 className="app-heading2 text-center mb-3">
-        Solve DSA problem to master in DSA{" "}
+        Make you interview experience better {" "}
         <span role="img" aria-label="fire">
           🔥
         </span>
@@ -157,7 +157,7 @@ export default function CoreSubjects({ questionData }) {
               (totalSolved / totalQuestions) *
               100
             ).toFixed(2)}% Done)`
-          : "Start Solving"}
+          : "Start Preparing"}
           <br />
           <br />
           

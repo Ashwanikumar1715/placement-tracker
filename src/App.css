@@ -50,9 +50,18 @@
 }
 
 .motivation{
-font-size: 25px;
-margin-left: 20px;
+font-size: 20px;
+margin-left: 40px;
+display: flex;
+flex-direction: column;
 }
+.motivation a{
+  text-decoration: none;
+  color: chartreuse;
+}
+
+
+
 
 @media screen and (max-width: 480px) {
   .app-heading {

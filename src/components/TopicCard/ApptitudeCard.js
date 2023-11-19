@@ -7,11 +7,10 @@ import Col from "react-bootstrap/Col";
 import Fade from "react-reveal/Fade";
 import { Link } from "react-router-dom";
 import { ThemeContext } from "../../App";
-
 import "./topicCard.css";
 
 
-export default function TopicCard({ questionData }) {
+export default function ApptitudeCard({ questionData }) {
   const dark = useContext(ThemeContext);
 
   // This component takes all the topicsData(here questionData ) and renders a TopicCard Component
@@ -115,13 +114,13 @@ export default function TopicCard({ questionData }) {
                           className="float-right"
                           style={{ fontWeight: "500", cursor: "pointer" }}
                         >
-                          Start Solving
+                          Start Preparing
                         </Badge>
                       </h4>
                     </Col>
                   </Row>
                   <Card.Text className="totalQuestion">
-                    Total Questions {questions.length}
+                    Total Topics {questions.length}
                   </Card.Text>
                   <p className="percentDone mb-1">
                     <b>
@@ -143,7 +142,7 @@ export default function TopicCard({ questionData }) {
   return (
     <>
       <h3 className="app-heading2 text-center mb-3">
-        Solve DSA problem to master in DSA{" "}
+        Make you Apptitude experience better {" "}
         <span role="img" aria-label="fire">
           🔥
         </span>
@@ -158,7 +157,7 @@ export default function TopicCard({ questionData }) {
               (totalSolved / totalQuestions) *
               100
             ).toFixed(2)}% Done)`
-          : "Start Solving"}
+          : "Start Preparing"}
           <br />
           <br />
           
@@ -185,7 +184,7 @@ export default function TopicCard({ questionData }) {
       </div>
 
       <div className="apptitude">
-        <a href="/coresubjects">Core Subjects</a>
+        <a href="/">Apptitude </a>
       </div>
     </>
   );

@@ -1,32 +1,32 @@
 import Localbase from "localbase";
-import CoreSubjectData ,{ version } from "../CoreSubjects";
-let db = new Localbase("dbb");
+import ApptitudeData ,{ version } from "../ApptitudeData";
+let db = new Localbase("ddb");
 window.db = db;
 db.config.debug = false;
-const localVersion = localStorage.getItem("version");
+const localVersion = localStorage.getItem("versionApptitude");
 window.localVersion = localVersion;
 window.version = version;
 
-export function insertCoreData(callback) {
-	CoreSubjectData.forEach((topic, index) => {
-		db.collection("CoreArchive").add(topic, topic.topicName.replace(/[^A-Z0-9]+/gi, "_").toLowerCase());
+export function insertApptitudeData(callback) {
+	ApptitudeData.forEach((topic, index) => {
+		db.collection("ApptitudeArchive").add(topic, topic.topicName.replace(/[^A-Z0-9]+/gi, "_").toLowerCase());
 	});
-	getCoreData(callback);
+	getApptitudeData(callback);
 }
 
 
-export function getCoreData(callback) {
-	db.collection("CoreArchive")
+export function getApptitudeData(callback) {
+	db.collection("ApptitudeArchive")
 		.get()
 		.then((data) => {
 			if (data.length === 0) {
-				insertCoreData(callback);
+				insertApptitudeData(callback);
 			} else {
 				data.sort((a, b) => {
 					return a.position - b.position;
 				});
 				if (localVersion === null || localVersion === undefined) {
-					localStorage.setItem("version", 100000007);
+					localStorage.setItem("versionApptitude", 100000007);
 					setTimeout(() => {
 						window.location.reload();
 					}, 3000);
@@ -35,7 +35,7 @@ export function getCoreData(callback) {
 				if (parseInt(localVersion) !== version) {
 					let i = 0;
 					for (let topic of data) {
-						let dataFromJSON = CoreSubjectData[i].questions;
+						let dataFromJSON = ApptitudeData[i].questions;
 						let len = dataFromJSON.length;
 						let key = topic.topicName.replace(/[^A-Z0-9]+/gi, "_").toLowerCase();
 						topic.questions.forEach((qObj, index) => {
@@ -55,14 +55,14 @@ export function getCoreData(callback) {
 								}
 							}
 						});
-						updateCoreDBData(key, {
+						updateApptitudeDBData(key, {
 							started: topic.started,
 							doneQuestions: topic.doneQuestions,
 							questions: dataFromJSON,
 						});
 						i++;
 					}
-					localStorage.setItem("version", version);
+					localStorage.setItem("versionApptitude", version);
 					setTimeout(() => {
 						window.location.reload();
 					}, 3000);
@@ -72,8 +72,8 @@ export function getCoreData(callback) {
 			}
 		});
 }
-export function getCoreTopicData(key, callback) {
-	db.collection("CoreArchive")
+export function getApptitudeTopicData(key, callback) {
+	db.collection("ApptitudeArchive")
 		.doc(key)
 		.get()
 		.then((document) => {
@@ -81,12 +81,12 @@ export function getCoreTopicData(key, callback) {
 		});
 }
 
-export function updateCoreDBData(key, updateData) {
-	db.collection("CoreArchive").doc(key).update(updateData);
+export function updateApptitudeDBData(key, updateData) {
+	db.collection("ApptitudeArchive").doc(key).update(updateData);
 }
 
-export function resetCoreDBData(callback) {
-	db.collection("CoreArchive")
+export function resetApptitudeDBData(callback) {
+	db.collection("ApptitudeArchive")
 		.delete()
 		.then((response) => {
 			callback(response);
@@ -96,25 +96,25 @@ export function resetCoreDBData(callback) {
 		});
 }
 
-export function exportCoreDBData(callback) {
-	db.collection("CoreArchive")
+export function exportApptitudeDBData(callback) {
+	db.collection("ApptitudeArchive")
 		.get()
 		.then((data) => {
 			callback(data);
 		});
 }
 
-export function importCoreDBData(data, callback) {
-	resetCoreDBData((response) => {
+export function importApptitudeDBData(data, callback) {
+	resetApptitudeDBData((response) => {
 		new Promise((resolve, reject) => {
 			data.forEach((topic, index) => {
-				db.collection("CoreArchive").add(topic, topic.topicName.replace(/[^A-Z0-9]+/gi, "_").toLowerCase());
+				db.collection("ApptitudeArchive").add(topic, topic.topicName.replace(/[^A-Z0-9]+/gi, "_").toLowerCase());
 				if (index === data.length - 1) {
 					resolve();
 				}
 			});
 		}).then(() => {
-			getCoreData((data) => {
+			getApptitudeData((data) => {
 				callback(data);
 			});
 		});

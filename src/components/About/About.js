@@ -4,12 +4,33 @@ import Alert from "react-bootstrap/Alert";
 import Badge from "react-bootstrap/Badge";
 import Spinner from "react-bootstrap/Spinner";
 import Fade from "react-reveal/Fade";
+import "./about.css"
 
-export default function About({ resetData, exportData, importData }) {
-  const inputFile = useRef(null);
+export default function About({
+  resetData,
+  exportData,
+  importData,
+  resetCData,
+  exportCData,
+  importCData,
+  resetAData,
+  exportAData,
+  importAData,
+  setQuestionData, // corrected prop name
+  setCoreSubjectData, // corrected prop name
+  setApptitudeData, // corrected prop name
+}) 
+ {
+  const inputFile1 = useRef(null);
+  const inputFile2 = useRef(null);
+  const inputFile3 = useRef(null);
   let history = useNavigate();
   const [importSpinnerState, setImportSpinnerState] = useState(false);
   const [exportSpinnerState, setExportSpinnerState] = useState(false);
+  const [importSpinnerCState, setImportSpinnerCState] = useState(false);
+  const [exportSpinnerCState, setExportSpinnerCState] = useState(false);
+  const [importSpinnerAState, setImportSpinnerAState] = useState(false);
+  const [exportSpinnerAState, setExportSpinnerAState] = useState(false);
   // About component takes resetData() from App <Component> to trigger DB data reset
   function handleChange(e) {
     const fileReader = new FileReader();
@@ -18,6 +39,28 @@ export default function About({ resetData, exportData, importData }) {
       const JSONData = JSON.parse(e.target.result);
       importData(JSONData, () => {
         setImportSpinnerState(false);
+        history.push("/");
+      });
+    };
+  }
+  function handleChangeC(e) {
+    const fileReader = new FileReader();
+    fileReader.readAsText(e.target.files[0], "UTF-8");
+    fileReader.onload = (e) => {
+      const JSONData = JSON.parse(e.target.result);
+      importCData(JSONData, () => {
+        setImportSpinnerCState(false);
+        history.push("/");
+      });
+    };
+  }
+  function handleChangeA(e) {
+    const fileReader = new FileReader();
+    fileReader.readAsText(e.target.files[0], "UTF-8");
+    fileReader.onload = (e) => {
+      const JSONData = JSON.parse(e.target.result);
+      importAData(JSONData, () => {
+        setImportSpinnerAState(false);
         history.push("/");
       });
     };
@@ -41,61 +84,6 @@ export default function About({ resetData, exportData, importData }) {
             </Alert>
           </div>
           <div className="container my-5">
-            <style>
-              {`
-      a {
-        text-decoration: none;
-      }
-    `}
-            </style>
-            <h2 className="text-center">
-              <a href="/">Placement Preparation Tracker</a> is your personal
-              web-based progress tracker based on <br></br>
-              <ul>
-              <style>
-      {`
-        li {
-          list-style: none;
-          margin-bottom: 10px; /* Add some space between list items */
-        }
-      `}
-    </style>
-                <li>
-                  <i>
-                    <a
-                      href="https://docs.google.com/spreadsheets/d/1MVjnBdrosmUxZgxV4XBBENDd_HUdl7Tq/edit?usp=sharing&ouid=111291885373123239410&rtpof=true&sd=true"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      DSA Sheet by Babbar
-                    </a>
-                  </i>
-                </li>
-                <li>
-                  <i>
-                    <a
-                      href="https://docs.google.com/spreadsheets/d/1MVjnBdrosmUxZgxV4XBBENDd_HUdl7Tq/edit?usp=sharing&ouid=111291885373123239410&rtpof=true&sd=true"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Placement Core Subjects
-                    </a>
-                  </i>
-                </li>
-
-                <li>
-                  <i>
-                    <a
-                      href="https://docs.google.com/spreadsheets/d/1MVjnBdrosmUxZgxV4XBBENDd_HUdl7Tq/edit?usp=sharing&ouid=111291885373123239410&rtpof=true&sd=true"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Apptitude Preparation
-                    </a>
-                  </i>
-                </li>
-              </ul>
-            </h2>
             <h4 className="text-center my-5">
               I{" "}
               <a
@@ -110,6 +98,9 @@ export default function About({ resetData, exportData, importData }) {
               </span>
             </h4>
             <h5 className="text-center">
+             <span className="dsa"> Dsa Tracking</span>
+              
+              <br/>
               <Badge
                 variant="danger"
                 as="a"
@@ -152,7 +143,7 @@ export default function About({ resetData, exportData, importData }) {
                 style={{ cursor: "pointer" }}
                 onClick={() => {
                   setImportSpinnerState(true);
-                  inputFile.current.click();
+                  inputFile1.current.click();
                 }}
               >
                 Import Progress{" "}
@@ -165,13 +156,147 @@ export default function About({ resetData, exportData, importData }) {
               </Badge>
             </h5>
 
+            <h5 className="text-center">
+             <span className="dsa">Core Subjects</span>
+             
+              <br/>
+              <Badge
+                variant="danger"
+                as="a"
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  if (
+                    window.confirm(
+                      "Are you sure you want to reset the progress !"
+                    )
+                  ) {
+                    setExportSpinnerCState(true);
+                    resetCData();
+                  }
+                }}
+              >
+                Reset Progress
+                <Spinner
+                  animation="border"
+                  variant="light"
+                  size="sm"
+                  style={exportSpinnerCState ? {} : { display: "none" }}
+                />
+              </Badge>{" "}
+              <Badge
+                variant="warning"
+                as="a"
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  setExportSpinnerCState(true);
+                  exportCData(() => {
+                    setExportSpinnerCState(false);
+                  });
+                }}
+              >
+                Export Progress
+              </Badge>{" "}
+              <Badge
+                variant="primary"
+                as="a"
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  setImportSpinnerCState(true);
+                  inputFile2.current.click();
+                }}
+              >
+                Import Progress{" "}
+                <Spinner
+                  animation="border"
+                  variant="light"
+                  size="sm"
+                  style={importSpinnerCState ? {} : { display: "none" }}
+                />
+              </Badge>
+            </h5>
+
+            <h5 className="text-center">
+             <span className="dsa">Apptitude</span>
+             
+              <br/>
+              <Badge
+                variant="danger"
+                as="a"
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  if (
+                    window.confirm(
+                      "Are you sure you want to reset the progress !"
+                    )
+                  ) {
+                    setExportSpinnerAState(true);
+                    resetAData();
+                  }
+                }}
+              >
+                Reset Progress
+                <Spinner
+                  animation="border"
+                  variant="light"
+                  size="sm"
+                  style={exportSpinnerAState ? {} : { display: "none" }}
+                />
+              </Badge>{" "}
+              <Badge
+                variant="warning"
+                as="a"
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  setExportSpinnerAState(true);
+                  exportAData(() => {
+                    setExportSpinnerAState(false);
+                  });
+                }}
+              >
+                Export Progress
+              </Badge>{" "}
+              <Badge
+                variant="primary"
+                as="a"
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  setImportSpinnerAState(true);
+                  inputFile3.current.click();
+                }}
+              >
+                Import Progress{" "}
+                <Spinner
+                  animation="border"
+                  variant="light"
+                  size="sm"
+                  style={importSpinnerAState ? {} : { display: "none" }}
+                />
+              </Badge>
+            </h5>
+
             <input
               type="file"
               id="file"
-              ref={inputFile}
+              ref={inputFile1}
               style={{ display: "none" }}
               accept=".json"
               onChange={handleChange}
+            />
+              <input
+              type="file"
+              id="file"
+              ref={inputFile2}
+              style={{ display: "none" }}
+              accept=".json"
+              onChange={handleChangeC}
+            />
+              <input
+              type="file"
+              id="file"
+              ref={inputFile3}
+              style={{ display: "none" }}
+              accept=".json"
+              onChange={handleChangeA}
             />
           </div>
         </Fade>
