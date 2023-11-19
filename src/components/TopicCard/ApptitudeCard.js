@@ -182,10 +182,6 @@ export default function ApptitudeCard({ questionData }) {
           {topicCard}
         </div>
       </div>
-
-      <div className="apptitude">
-        <a href="/">Apptitude </a>
-      </div>
     </>
   );
 }

@@ -348,7 +348,7 @@ function ApptitudeTopic({ data, updateData }) {
 			</h1>
 
 			<h3 className="text-center mb-4">
-				<Link to="/">Topics</Link>/{topicName}
+				<Link to="/apptitude">Topics</Link>/{topicName}
 			</h3>
 
 

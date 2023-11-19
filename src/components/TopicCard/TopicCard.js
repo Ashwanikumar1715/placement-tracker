@@ -183,10 +183,6 @@ export default function TopicCard({ questionData }) {
           {topicCard}
         </div>
       </div>
-
-      <div className="apptitude">
-        <a href="/coresubjects">Core Subjects</a>
-      </div>
     </>
   );
 }
