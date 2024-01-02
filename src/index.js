@@ -10,7 +10,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.Fragment>
 
-   <BrowserRouter basename="https://my-placement-tracker.onrender.com">
+   <BrowserRouter>
      <App />
    </BrowserRouter>
   </React.Fragment>
